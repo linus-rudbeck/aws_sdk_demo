@@ -1,13 +1,11 @@
 package se.distansakademin;
 
 import software.amazon.awssdk.auth.credentials.ProfileCredentialsProvider;
-import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.*;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -30,7 +28,7 @@ public class S3Example {
         CreateBucketResponse response = s3.createBucket(request);
 
         // Handle response
-        System.out.println(response.location());
+        System.out.println(response);
     }
 
     public static void uploadFile(S3Client s3, String bucketName, String keyName, String filePath) throws IOException {
@@ -60,5 +58,32 @@ public class S3Example {
 
         // Handle response
         System.out.println(response);
+    }
+
+    public static void deleteObject(S3Client s3, String bucketName, String keyName){
+        // Build request
+        DeleteObjectRequest request  = DeleteObjectRequest.builder()
+                .bucket(bucketName)
+                .key(keyName)
+                .build();
+
+        // Execute request
+        DeleteObjectResponse response = s3.deleteObject(request);
+
+        // Handle response
+        System.out.println(response.toString());
+    }
+
+    public static void deleteBucket(S3Client s3, String bucketName){
+        // Build request
+        DeleteBucketRequest request = DeleteBucketRequest.builder()
+                .bucket(bucketName)
+                .build();
+
+        // Execute request
+        DeleteBucketResponse response = s3.deleteBucket(request);
+
+        // Handle response
+        System.out.println(response.toString());
     }
 }
